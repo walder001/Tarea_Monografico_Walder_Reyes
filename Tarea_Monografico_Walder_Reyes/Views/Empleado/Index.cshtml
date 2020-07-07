@@ -1,0 +1,181 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Tarea_Monografico_Walder_Reyes.Models.Empleado>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAmin.cshtml";
+
+}
+
+<h2>Inicio</h2>
+
+
+<div>
+    <a asp-action="Create">Crear Empleado</a>
+    <form method="get" class="form-inline" asp-action="Index">
+        <input name="filter" class="form-control" placeholder="Filtro"
+               value="@Model.RouteValue["Filter"]" />
+        <button type="submit" class="btn  btn-default">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+        </button>
+
+        <a asp-action="Create" class="btn btn-primary btn-sm pull-right">
+            <span class="glyphicon glyphicon-plus"></span>  Crear Empleado
+        </a>
+    </form>
+</div>
+<br />
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Datos del Empleado</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
+                            <div class="col-sm-12">
+                                <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                                    <thead>
+                                        <tr>
+
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.Codigo)
+                                            </th>
+
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.Nombre)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.Apellido)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.Sexo)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.EstadoCivil)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.Ocupacion)
+                                            </th>
+                                            <th>
+                                                @Html.SortableHeaderFor(model => model.TipoDeSangre)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.SortableHeaderFor(model => model.Nacionalidad)
+                                            </th>
+
+
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Codigo)
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Apellido)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Sexo)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.EstadoCivil)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Ocupacion)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TipoDeSangre)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Nacionalidad)
+                                                </td>
+
+
+
+
+                                                <td>
+                                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.Codigo)
+                                            </th>
+
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.Nombre)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.Apellido)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.Sexo)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.EstadoCivil)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.Ocupacion)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.TipoDeSangre)
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">
+                                                @Html.DisplayNameFor(model => model.Nacionalidad)
+                                            </th>
+
+
+
+                                            <th></th>
+                                        </tr>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div>
+                        <div class="col-sm-7">
+                            <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
+                                <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
+                                <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
+                              <!--  <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
+                                <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
+                                <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
+                                <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li> -->
+                                <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li>
+                                </ul></div></div></div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

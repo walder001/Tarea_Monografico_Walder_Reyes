@@ -6,25 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Tarea_Monografico_Walder_Reyes.Models;
+using Tarea_Monografico_Walder_Reyes.Repositorio.Base;
 
 namespace Tarea_Monografico_Walder_Reyes.Controllers
 {
     public class EmpleadosController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IEmpleadoRepo _repo;
 
-        public EmpleadosController(AppDbContext context)
+        public EmpleadosController(AppDbContext context, IEmpleadoRepo repo)
         {
             _context = context;
+            _repo = repo;
         }
 
-        // GET: Empleadoes
+        // GET: Empleados
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Empeados.ToListAsync());
+            return View(_repo.BuscarTodo());
+           // return View(await _context.Empeados.ToListAsync());
         }
 
-        // GET: Empleadoes/Details/5
+        // GET: Empleados/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,13 +46,13 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Create
+        // GET: Empleados/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Empleadoes/Create
+        // POST: Empleados/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -59,12 +63,13 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
             {
                 _context.Add(empleado);
                 await _context.SaveChangesAsync();
+                //await _repo.Crear(empleado);
                 return RedirectToAction(nameof(Index));
             }
             return View(empleado);
         }
 
-        // GET: Empleadoes/Edit/5
+        // GET: Empleados/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,7 +85,7 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
             return View(empleado);
         }
 
-        // POST: Empleadoes/Edit/5
+        // POST: Empleados/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,7 +120,7 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Delete/5
+        // GET: Empleados/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +138,7 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
             return View(empleado);
         }
 
-        // POST: Empleadoes/Delete/5
+        // POST: Empleados/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

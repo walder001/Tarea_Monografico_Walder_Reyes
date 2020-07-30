@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tarea_Monografico_Walder_Reyes.Models;
+using Tarea_Monografico_Walder_Reyes.Repositorio;
+using Tarea_Monografico_Walder_Reyes.Repositorio.Base;
 
 namespace Tarea_Monografico_Walder_Reyes
 {
@@ -47,6 +49,14 @@ namespace Tarea_Monografico_Walder_Reyes
 
             //services.AddDbContext<OldDbContext>(options => options.UseSqlServer(connStr),
             //ServiceLifetime.Scoped);
+
+
+
+            //Inyectar la dependencia 
+            services.AddScoped<IEstudianteRepo,EstudienteRepo>();
+            services.AddScoped<IProfesorRepo, ProfesorRepo>();
+            services.AddScoped<IEmpleadoRepo, EmpleadoRepo>();
+
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings")); //inyecta los datos constantes de la app.
 

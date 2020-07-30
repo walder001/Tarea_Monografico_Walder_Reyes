@@ -10,8 +10,8 @@ using Tarea_Monografico_Walder_Reyes.Models;
 namespace Tarea_Monografico_Walder_Reyes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200707034335_CreacionInicial")]
-    partial class CreacionInicial
+    [Migration("20200721013213_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

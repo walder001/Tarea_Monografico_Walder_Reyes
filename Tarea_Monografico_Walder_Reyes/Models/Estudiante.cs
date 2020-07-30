@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Tarea_Monografico_Walder_Reyes.Controllers.Base;
 
 namespace Tarea_Monografico_Walder_Reyes.Models
 {
-    public class Estudiante
+    public class Estudiante 
     {
         [Key]
         public int Id { get; set; }
@@ -30,6 +31,10 @@ namespace Tarea_Monografico_Walder_Reyes.Models
         public string TipoColegio { get; set; }
         public string Carrera { get; set; }
         public string Observaciones { get; set; }
+    /*    public DateTime Creado { get; set; }
+        public DateTime Modificado { get; set; }
+
+        public bool Inactivo { get; set; }*/
 
         public Estudiante()
         {

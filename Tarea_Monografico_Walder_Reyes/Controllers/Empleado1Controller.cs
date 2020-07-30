@@ -5,30 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Tarea_Monografico_Walder_Reyes.Controllers.Base;
 using Tarea_Monografico_Walder_Reyes.Models;
-using Tarea_Monografico_Walder_Reyes.Repositorio;
 
 namespace Tarea_Monografico_Walder_Reyes.Controllers
 {
-    public class EstudiantesController : Controller
+    public class Empleado1Controller : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IEstudianteRepo _repo;
 
-        public EstudiantesController(AppDbContext context, IEstudianteRepo repo)
+        public Empleado1Controller(AppDbContext context)
         {
             _context = context;
-            _repo = repo;
         }
 
-        // GET: Estudiantes
+        // GET: Empleado1
         public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Empeados.ToListAsync());
         }
 
-        // GET: Estudiantes/Details/5
+        // GET: Empleado1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,68 +32,62 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
                 return NotFound();
             }
 
-            /*var estudiante = await _context.Estudiantes
-                .FirstOrDefaultAsync(m => m.Id == id);*/
-            var estudiante = await _repo.BuscarPorId(id);
-            if (estudiante == null)
+            var empleado = await _context.Empeados
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (empleado == null)
             {
                 return NotFound();
             }
 
-            return View(estudiante);
+            return View(empleado);
         }
 
-        // GET: Estudiantes/Create
+        // GET: Empleado1/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Estudiantes/Create
+        // POST: Empleado1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Matricula,Cedula,FechaNaciemiento,FechaIngreso,Nombre,Apellido,Sexo,EstadoCivil,Ocupacion,TipoDeSangre,Nacionalidad,Religion,Telefono,Email,NombreDePadre,NombreDeMadre,Direccion,TipoColegio,Carrera,Observaciones")] Estudiante estudiante)
+        public async Task<IActionResult> Create([Bind("Id,Codigo,Cedula,FechaNaciemiento,FechaIngreso,Nombre,Apellido,Sexo,EstadoCivil,Ocupacion,TipoDeSangre,Nacionalidad,Religion,Telefono,Email,Direccion,SalarioMensual,Departamento,NombreEmergencia,TelefonoEmergencia,AFP,ARS,Observaciones")] Empleado empleado)
         {
             if (ModelState.IsValid)
             {
-                /* _context.Add(estudiante);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));*/
-                await _repo.Crear(estudiante);
+                _context.Add(empleado);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-
             }
-            return View(estudiante);
+            return View(empleado);
         }
 
-        // GET: Estudiantes/Edit/5
+        // GET: Empleado1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var estudiante = await _repo.BuscarPorId(id);
 
-
-          //  var estudiante = await _context.Estudiantes.FindAsync(id);
-            if (estudiante == null)
+            var empleado = await _context.Empeados.FindAsync(id);
+            if (empleado == null)
             {
                 return NotFound();
             }
-            return View(estudiante);
+            return View(empleado);
         }
 
-        // POST: Estudiantes/Edit/5
+        // POST: Empleado1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Matricula,Cedula,FechaNaciemiento,FechaIngreso,Nombre,Apellido,Sexo,EstadoCivil,Ocupacion,TipoDeSangre,Nacionalidad,Religion,Telefono,Email,NombreDePadre,NombreDeMadre,Direccion,TipoColegio,Carrera,Observaciones")] Estudiante estudiante)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Codigo,Cedula,FechaNaciemiento,FechaIngreso,Nombre,Apellido,Sexo,EstadoCivil,Ocupacion,TipoDeSangre,Nacionalidad,Religion,Telefono,Email,Direccion,SalarioMensual,Departamento,NombreEmergencia,TelefonoEmergencia,AFP,ARS,Observaciones")] Empleado empleado)
         {
-            if (id != estudiante.Id)
+            if (id != empleado.Id)
             {
                 return NotFound();
             }
@@ -106,12 +96,12 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
             {
                 try
                 {
-                    _context.Update(estudiante);
+                    _context.Update(empleado);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EstudianteExists(estudiante.Id))
+                    if (!EmpleadoExists(empleado.Id))
                     {
                         return NotFound();
                     }
@@ -122,10 +112,10 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(estudiante);
+            return View(empleado);
         }
 
-        // GET: Estudiantes/Delete/5
+        // GET: Empleado1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,30 +123,30 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiantes
+            var empleado = await _context.Empeados
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (estudiante == null)
+            if (empleado == null)
             {
                 return NotFound();
             }
 
-            return View(estudiante);
+            return View(empleado);
         }
 
-        // POST: Estudiantes/Delete/5
+        // POST: Empleado1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var estudiante = await _context.Estudiantes.FindAsync(id);
-            _context.Estudiantes.Remove(estudiante);
+            var empleado = await _context.Empeados.FindAsync(id);
+            _context.Empeados.Remove(empleado);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EstudianteExists(int id)
+        private bool EmpleadoExists(int id)
         {
-            return _context.Estudiantes.Any(e => e.Id == id);
+            return _context.Empeados.Any(e => e.Id == id);
         }
     }
 }

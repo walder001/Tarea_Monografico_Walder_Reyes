@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tarea_Monografico_Walder_Reyes.Controllers.Base
 {
-    public abstract class RepoBase<TEntity> : IRepoBase<TEntity> where TEntity: class, ICampoControl
+    public abstract class RepoBase <TEntity> : IRepoBase<TEntity> where TEntity: class
     {
         private readonly DbContext _repoContext;
         public RepoBase(DbContext repoContext)
@@ -35,11 +35,11 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers.Base
         {
             try
             {
-                entity.Creado = DateTime.Now;
+                //entity.Creado = DateTime.Now;
                 //entity.CreadoPorId = 0;
-                entity.Modificado = DateTime.Now;
+               // entity.Modificado = DateTime.Now;
                 //entity.ModificadoPorId = _user.GetUserID().ToInt();
-                entity.Inactivo = false;
+               // entity.Inactivo = false;
                 await _repoContext.Set<TEntity>().AddAsync(entity);
                 await _repoContext.SaveChangesAsync();
             }
@@ -59,12 +59,12 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers.Base
                 //await _repoContext.SaveChangesAsync();
 
                 _repoContext.Set<TEntity>().Update(entity);
-                entity.Modificado = DateTime.Now;
+               // entity.Modificado = DateTime.Now;
                 // entity.ModificadoPorId = _user.GetUserID().ToInt();
-                _repoContext.Entry(entity).Property(c => c.Creado).IsModified = false;
+               // _repoContext.Entry(entity).Property(c => c.Creado).IsModified = false;
                 //_repoContext.Entry(entity).Property(c => c.CreadoPorId).IsModified = false;
-                _repoContext.Entry(entity).Property(c => c.Inactivo).IsModified = false;
-                entity.Inactivo = true;
+               // _repoContext.Entry(entity).Property(c => c.Inactivo).IsModified = false;
+               // entity.Inactivo = true;
                 await _repoContext.SaveChangesAsync();
 
             }
@@ -85,11 +85,11 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers.Base
             try
             {
                 _repoContext.Set<TEntity>().Update(entity);
-                entity.Modificado = DateTime.Now;
+             //   entity.Modificado = DateTime.Now;
                 // entity.ModificadoPorId = _user.GetUserID().ToInt();
-                _repoContext.Entry(entity).Property(c => c.Creado).IsModified = false;
+              //  _repoContext.Entry(entity).Property(c => c.Creado).IsModified = false;
                 //_repoContext.Entry(entity).Property(c => c.CreadoPorId).IsModified = false;
-                _repoContext.Entry(entity).Property(c => c.Inactivo).IsModified = false;
+              //  _repoContext.Entry(entity).Property(c => c.Inactivo).IsModified = false;
                 await _repoContext.SaveChangesAsync();
             }
             catch (Exception ex)

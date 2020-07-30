@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Tarea_Monografico_Walder_Reyes.Controllers.Base;
 
 namespace Tarea_Monografico_Walder_Reyes.Models
 {
-    public class Profesor
+    public class Profesor 
     {
         [Key]
         public int Id { get; set; }
@@ -32,6 +33,10 @@ namespace Tarea_Monografico_Walder_Reyes.Models
         public string Facultad { get; set; }
         public string AsignaturaImpartidas { get; set; }
         public string Observaciones { get; set; }
+      /*  public DateTime Creado { get; set; }
+        public DateTime Modificado { get; set; }
+
+        public bool Inactivo { get; set; }*/
 
         public Profesor()
         {
@@ -59,7 +64,8 @@ namespace Tarea_Monografico_Walder_Reyes.Models
             AsignaturaImpartidas = "Programacion";
             Observaciones = "Excelente erstudiente.";
 
-        }
+
+    }
 
         public Profesor(int id, string codigo, string cedula, DateTime fechaNaciemiento, DateTime fechaIngreso, string nombre, string apellido, char sexo, string estadoCivil, string ocupacion, string tipoDeSangre, string nacionalidad, string religion, string telefono, string email, string direccion, string carrera, string tituloCarreraGrado, string mayorGradoAcademico, string categoriaProfesoral, string facultad, string asignaturaImpartidas, string observaciones)
         {

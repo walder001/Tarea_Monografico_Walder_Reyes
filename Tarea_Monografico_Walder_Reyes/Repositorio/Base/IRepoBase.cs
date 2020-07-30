@@ -8,7 +8,7 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers.Base
 {
     public interface IRepoBase<TEntity> where TEntity: class
     {
-       // IQueryable<TEntity> BuscarTodos();
+        IQueryable<TEntity> BuscarTodo();
         Task<TEntity> BuscarPorId(int? id);
         IQueryable<TEntity> BuscarPorCondicion(Expression<Func<TEntity, bool>> expression);
         Task Crear(TEntity entity);

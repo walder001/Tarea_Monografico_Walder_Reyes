@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Tarea_Monografico_Walder_Reyes.Controllers.Base;
 
 namespace Tarea_Monografico_Walder_Reyes.Models
 {
-    public class Empleado
+    public class Empleado 
     {
         [Key]
         public int Id { get; set; }
@@ -32,6 +33,10 @@ namespace Tarea_Monografico_Walder_Reyes.Models
         public string AFP { get; set; }
         public string ARS { get; set; }
         public string Observaciones { get; set; }
+       /* public DateTime Creado { get; set; }
+        public DateTime Modificado { get; set; }
+
+        public bool Inactivo { get; set; }*/
 
         public Empleado()
         {
@@ -58,6 +63,7 @@ namespace Tarea_Monografico_Walder_Reyes.Models
             AFP ="Reservas";
             ARS = "Humano";
             Observaciones = "Excelente erstudiente.";
+
         }
 
         public Empleado(int id, string codigo, string cedula, DateTime fechaNaciemiento, DateTime fechaIngreso, string nombre, string apellido, char sexo, string estadoCivil, string ocupacion, string tipoDeSangre, string nacionalidad, string religion, string telefono, string email, string direccion, int salarioMensual, string departamento, string nombreEmergencia, string telefonoEmergencia, string aFP, string aRS, string observaciones)
@@ -85,6 +91,7 @@ namespace Tarea_Monografico_Walder_Reyes.Models
             AFP = aFP ?? throw new ArgumentNullException(nameof(aFP));
             ARS = aRS ?? throw new ArgumentNullException(nameof(aRS));
             Observaciones = observaciones ?? throw new ArgumentNullException(nameof(observaciones));
+
         }
     }
 }

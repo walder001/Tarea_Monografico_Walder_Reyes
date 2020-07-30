@@ -2,176 +2,151 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Tarea_Monografico_Walder_Reyes.Models;
-using DNTBreadCrumb.Core;
-using ReflectionIT.Mvc.Paging;
-using Microsoft.AspNetCore.Routing;
-using System.Text;
-using Microsoft.Extensions.Options;
 
 namespace Tarea_Monografico_Walder_Reyes.Controllers
 {
-    [BreadCrumb(Title ="Empleado", Url="/Empleado/Index", Order = 0)]
     public class EmpleadoController : Controller
     {
-     
+        private readonly AppDbContext _context;
+
+        public EmpleadoController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         // GET: Empleado
-        public static List<Empleado> empleado;
-        [BreadCrumb(Title = "Titulo Empleado", Order = 1)]
-        public ActionResult Index(string filter, int page = 1,
-                                            string sortExpression = "Nombre")
+        public async Task<IActionResult> Index()
         {
-            
-            if (empleado == null)
-                empleado = new List<Empleado>
-                {
-                  new Empleado() { }
-                };
-
-            List<Empleado> filtrada = empleado;
-            if (!string.IsNullOrWhiteSpace(filter))
-            {
-                filtrada = empleado.FindAll(x => x.Nombre.ToUpper().Contains(filter.ToUpper()));
-            }
-
-
-            var model = PagingList.Create(filtrada, 5, page, sortExpression, "Nombre");
-            model.RouteValue = new RouteValueDictionary {
-                            { "filter", filter}
-            };
-            model.Action = "Index";
-
-            return View(model);
+            return View(await _context.Empeados.ToListAsync());
         }
-        [BreadCrumb(Title = "Detalle Empleado", Order = 2)]
 
         // GET: Empleado/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            var modelo = empleado.Find(x => x.Id == id);
-            if (modelo == null)
+            if (id == null)
             {
-                return RedirectToAction(nameof(Index));
-
+                return NotFound();
             }
 
-            return View(modelo);
+            var empleado = await _context.Empeados
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (empleado == null)
+            {
+                return NotFound();
+            }
+
+            return View(empleado);
         }
-        [BreadCrumb(Title = "Crear Empleado", Order = 2)]
 
         // GET: Empleado/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         // POST: Empleado/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Empleado modelo)
+        public async Task<IActionResult> Create([Bind("Id,Codigo,Cedula,FechaNaciemiento,FechaIngreso,Nombre,Apellido,Sexo,EstadoCivil,Ocupacion,TipoDeSangre,Nacionalidad,Religion,Telefono,Email,Direccion,SalarioMensual,Departamento,NombreEmergencia,TelefonoEmergencia,AFP,ARS,Observaciones")] Empleado empleado)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-                if (ModelState.IsValid)
-                {
-                    empleado.Add(modelo);
-                    return RedirectToAction(nameof(Index));
-                }
-         
+                _context.Add(empleado);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View(modelo);
-            }
-            return View(modelo);
+            return View(empleado);
         }
-        [BreadCrumb(Title = "Editar Empleado", Order = 3)]
 
         // GET: Empleado/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var modelo = empleado.Find( x=> x.Id == id);
-            if (modelo == null)
-                return RedirectToAction(nameof(Index));
-            
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-          
-            return View(modelo);
+            var empleado = await _context.Empeados.FindAsync(id);
+            if (empleado == null)
+            {
+                return NotFound();
+            }
+            return View(empleado);
         }
 
         // POST: Empleado/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Empleado modelo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Codigo,Cedula,FechaNaciemiento,FechaIngreso,Nombre,Apellido,Sexo,EstadoCivil,Ocupacion,TipoDeSangre,Nacionalidad,Religion,Telefono,Email,Direccion,SalarioMensual,Departamento,NombreEmergencia,TelefonoEmergencia,AFP,ARS,Observaciones")] Empleado empleado)
         {
-            try
+            if (id != empleado.Id)
             {
-                if (ModelState.IsValid)
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    int indice = empleado.FindIndex(x => x.Id == modelo.Id);
-                    empleado[indice] = modelo;
-                    return RedirectToAction(nameof(Index));
-
-
-
+                    _context.Update(empleado);
+                    await _context.SaveChangesAsync();
                 }
-                // TODO: Add update logic here
-
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EmpleadoExists(empleado.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View(modelo);
-            }
-            return View(modelo);
-
+            return View(empleado);
         }
-        [BreadCrumb(Title = "Eliminar Empleado", Order = 4)]
 
         // GET: Empleado/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            var modelo = empleado.Find(x => x.Id == id);
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            if (modelo == null)
-                return RedirectToAction(nameof(Index));
+            var empleado = await _context.Empeados
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (empleado == null)
+            {
+                return NotFound();
+            }
 
-            return View(modelo);
+            return View(empleado);
         }
 
         // POST: Empleado/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Empleado modelo)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                if (modelo != null)
-                {
-                    int indice = empleado.FindIndex(x => x.Id == modelo.Id);
-                    empleado.RemoveAt(indice);
-                    return RedirectToAction(nameof(Index));
-
-
-                }
-                // TODO: Add delete logic here
-
-            }
-            catch
-            {
-                return View(modelo);
-            }
-
-            return View(modelo);
-
+            var empleado = await _context.Empeados.FindAsync(id);
+            _context.Empeados.Remove(empleado);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult Amdin()
+        private bool EmpleadoExists(int id)
         {
-            return View();
+            return _context.Empeados.Any(e => e.Id == id);
         }
     }
 }

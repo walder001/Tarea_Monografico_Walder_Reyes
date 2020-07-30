@@ -11,6 +11,5 @@ namespace Tarea_Monografico_Walder_Reyes.Controllers.Base
         DateTime Modificado { get; set; }
         bool Inactivo { get; set; }
 
-
     }
 }
